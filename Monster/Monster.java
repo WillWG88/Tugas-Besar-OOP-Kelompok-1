@@ -103,6 +103,14 @@ public class Monster{
         elementTypes.add(eltype);
     }
 
+    public void printMove(){
+        int i = 1;
+        for (Move m : this.getMoves().getListMove()){
+            System.out.printf("%d %s (x%d)%n", i, m.getMoveName(), m.getMoveAmmunition());
+            i++;
+        }
+    }
+
 //buff opsional
 //buff menyebabkan perubahan base stats monster
     public void applyBuff(){

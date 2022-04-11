@@ -1,59 +1,40 @@
 
-class Player{
-    String name;
-    double health;
-    int level;
 
-    //object member
-    Weapon weapon;
-    Armor armor;
+import java.util.List;
+import java.util.Random;
+import java.util.ArrayList;
+import java.lang.Thread;
 
-    //constructor
-    Player(String name, double health){
+public class Player {
+    private int id;
+    private String name;
+    private Monster currentMonster;
+
+    public Player(int id, String name){
+        this.id = id;
         this.name = name;
-        this.health = health;
     }
+
+    // getter
+    public int getPlayerID(){
+        return this.id;
+    }
+
+    public String getPlayerName(){
+        return this.name;
+    }
+
+    public Monster getCurrentMonster(){
+        return this.currentMonster;
+    }
+
+    // setter
+    public void setPlayerID(int id){
+        this.id = id;
+    }
+
+    public void setPlayerName(String name){
+        this.name = name;
+    }
+
     
-    void equipWeapon(Weapon weapon){
-        this.weapon = weapon;
-    }
-
-    void equipArmor(Armor armor){
-        this.armor = armor;
-    }
-
-    void display(){
-        System.out.println("Name : " + this.name);
-        System.out.println("Health : " + this.health);
-        this.weapon.display();
-        this.armor.display();
-    }
-}
-
-class Weapon{
-    String name;
-    double attackPower;
-
-    Weapon(String name, double attackPower){
-        this.name = name;
-        this.attackPower = attackPower;
-    }
-
-    void display(){
-        System.out.println("Weapon : " + this.name + ", power : " + this.attackPower);
-    }
-}
-
-class Armor{
-    String name;
-    double deffensePower;
-
-    Armor(String name, double deffensePower){
-        this.name = name;
-        this.deffensePower = deffensePower;
-    }
-
-    void display(){
-        System.out.println("Armor : " + this.name + ", deffense : " + this.deffensePower);
-    }
-}
