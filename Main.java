@@ -156,7 +156,7 @@ public class Main{
 
             while(menu<1 || menu>3){
                 System.out.printf("Masukkan lagi menu yang valid : ");
-                menu=input.nextInte();
+                menu=input.nextInt();
                 System.out.println();
             }
 
