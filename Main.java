@@ -216,8 +216,39 @@ public class Main{
                 System.out.printf("Masukkan nama Pemain 2 : ");
                 //menerima input nama pemain 2
                 String name2=input.nextLine();
+                System.out.println("Nama Pemain 1 : "+name1);
+                System.out.println("Nama Pemain 2 : "+name2);
+
+                //Memilih secara random monster yang akan digunakan
+                Random random= new Random();
+                Integer upperbound =monsterList.size();
+                ArrayList<Monster> monsterPemain1=new ArrayList<Monster>();
+                for(int i=0;i<6;i++){
+                    Integer monsterRandom=random.nextInt(upperbound);
+                    Monster Monster1=monsterList.get(monsterRandom);
+                    while (monsterPemain1.contains(Monster1)){
+                        monsterRandom=random.nextInt(upperbound);
+                        Monster1=monsterList.get(monsterRandom);
+                    }
+
+                    monsterPemain1.add(Monster1);
+                }
+                ArrayList<Monster> monsterPemain2=new ArrayList<Monster>();
+                for(int i=0;i<6;i++){
+                    Integer monsterRandom=random.nextInt(upperbound);
+                    Monster Monster2=monsterList.get(monsterRandom);
+                    while (monsterPemain1.contains(Monster1)){
+                        monsterRandom=random.nextInt(upperbound);
+                        Monster2=monsterList.get(monsterRandom);
+                    }
+
+                    monsterPemain2.add(Monster2);
+                }
+
                 
-                ArrayList<Monster> monsterpemain1=new ArrayList<Monster>();
+                
+
+
                 ArrayList<Monster> monsterpemain2=new ArrayList<Monster>();
                 String file1="configs/MonsterPool.csv";
                 String file2="configs/MovePool.csv";
