@@ -11,7 +11,9 @@ public class Main{
        //menyimpan move dalam ArrayList
         ArrayList<Move> moveList= new ArrayList<Move>();
         //menyimpan monster dalam ArrayList
-        ArrayList<Monster>monsterList=new ArrayList<Monster>();
+        ArrayList<Monster> monsterList=new ArrayList<Monster>();
+        //menyimpan effectivity dalam list
+        private static Effectivity listEffectivity = new Effectivity();
         //Effectivity pool
         EffectivityPool effectivityPool=new EffectivityPool();
 
@@ -43,20 +45,19 @@ public class Main{
                 }
 
                 else if(moveType.equals("STATUS")){
-                    String target=line[7];
-                    String status=line[8];
-                    Condition statusCondition;
-                    if(status.equals("-")){
-                        statusCondition=Condition.NONE;
-                    }
-                    else{
-                        statusCondition=Condition.valueOf(line[8]);
-                    }
-                    //........
+                    String moveStatus = line[8];
+                    String moveStats = line[9];
+                    String[] arrofmovestats = moveStats.split(",",6);
+                    Double hp = Double.parseDouble(arrofmovestats[0]);
+                    Double atk = Double.parseDouble(arrofmovestats[1]);
+                    Double def = Double.parseDouble(arrofmovestats[2]);
+                    Double spcAtk = Double.parseDouble(arrofmovestats[3]);
+                    Double spcDef = Double.parseDouble(arrofmovestats[4]);
+                    Double speed = Double.parseDouble(arrofmovestats[5]);
+                    Stats stat = new Stats(hp,atk,def,spcAtk,spcDef,speed);
 
-                    Stats movestat= new Stats(healthPoint, attack,defense,  specialAttack, specialDefense,speed);
-                    StatusMove statusMove =new StatusMove (id, moveType, name,  elementType, accuracy, priority, ammunition, target, statusEffect, hpEff,attEff, defEff, spAttEff, spDefEff, spdEff);
-                    moveList.add(statusMove);
+                    StatusMove status = new StatusMove(id, name, elType, accuracy, priority, ammunition,target, moveStatus, stat);
+                    moveList.add(status);
                 }
             }
             
@@ -69,8 +70,18 @@ public class Main{
                 int id = Integer.parseInt(line[0]);
                 String name = line[1];
                 String element = line[2];
-                String baseStats = line[3];
-                String moves = line[4];
+                String stat = line[3];
+                String move = line[4];
+                
+                //masukkan ke objek
+                ArrayList<Double> stats = new ArrayList<Double>();
+                String[] arrofstats = stat.split(",",7);
+                for(String a : arrofstats){
+                    Double d = Double.parseDouble(a);
+                    // System.out.println(d);
+                    stats.add(d);
+                }
+                Stats basestats = new Stats(stats.get(0), stats.get(1),stats.get(2),stats.get(3),stats.get(4),stats.get(5));
 
                 //object element Type
                 ArrayList<ElementType> elementType=new ArrayList<ElementType>();
@@ -93,16 +104,22 @@ public class Main{
                             break;
                     }
                 }
-
-                ArrayList<Double> stats= new ArrayList<Double>();
-                String[] ArrStats =baseStats.split(",",7);
-                for(String a: ArrStats){
-                    Double d=Double.parseDouble(a);
-                    stats.add(d);
+                ArrayList<Move> monstermove = new ArrayList<Move>();
+                String[] arrofmove=move.split(",",7);
+                //iterasi
+                for(int i = 0; i < arrofmove.length; i++){
+                    Move origin = listMoves.get(Integer.valueOf(arrofmov[i])-1);
+                    Move copy = (Move)origin.clone();
+                    monstermove.add(copy);
                 }
-                Stats basestats=new Stats(stats.get(0), stats.get(1),stats.get(2),stats.get(3),stats.get(4),stats.get(5));
                 
-                Monster newmonster = new Monster(id,name,elementType,basestats);
+                DefaultMove default =new DefaultMove();
+                monstermove.add(default);
+                
+                //membuat monster baru
+                Monster newmonster = new Monster(id,name,elementType,basestats,monstermove);
+                monsterList.add(newmonster);
+
 
                 for(String moves:move){
                     newmonster.getMoveId().add(Integer.parseInt(moves)-1);
@@ -116,22 +133,49 @@ public class Main{
             CSVReader reader2=new CSVReader(new File(Main.class.getResource("configs/ElementTypesEffectivity.csv").toURI()), ";");
             reader2.setSkipHeader(true);
             List<String[]> lines2=reader2.read();
-            for(String[] line : lines2){
-                ElementType source;
-                ElementType target;
-                try{
-                    source=ElementType.valueOf(line[0]);
-                    target=ElementType.valueOf(line[1]);
-                    double effectivity=Double.parseDouble(line[2]);
-                    effectivityPool.add(source,target,effectivity);
-                }
-                catch(exception e){
-                    System.out.println(e.getMessage());
-                }
-            }
+            for (String[]line:lines2){
+                //source 
+                String source=line[0];
+                //target
+                String target=line[1];
 
+                Double p=Double.parseDouble(line[2]);
+                ElementType so =ElementType.NORMAL;
+                ElementType ta= ElementType.NORMAL;
+                switch (source){
+                    case ("NORMAL"):
+                        so = ElementType.NORMAL;
+                        break;
+                    case ("FIRE"):
+                        so = ElementType.FIRE;
+                        break;  
+                    case ("WATER"):
+                        so = ElementType.WATER;
+                        break; 
+                    case ("GRASS"):
+                        so = ElementType.GRASS;
+                        break; 
+                }
+                switch (target){
+                    case ("NORMAL"):
+                        ta = ElementType.NORMAL;
+                        break;
+                    case ("FIRE"):
+                        ta = ElementType.FIRE;
+                        break;  
+                    case ("WATER"):
+                        ta = ElementType.WATER;
+                        break; 
+                    case ("GRASS"):
+                        ta = ElementType.GRASS;
+                        break; 
+                }
+                KeyElementEffectivity sourcetarget = new KeyElementEffectivity(so,ta);
+                listEffectivity.add(sourcetarget,p);
+            }
         }
-        catch(Exception e){
+        catch (Exception e){
+            System.err.println("Error");
         }
 
         //mulai permainan
@@ -161,6 +205,9 @@ public class Main{
             }
 
             if(menu==1){
+                //Permainan dimulai 
+                System.out.println("Permainan akan dimulai....");
+                System.out.println("");
                 //pemain1
                 System.out.printf("Masukkan nama Pemain 1 : ");
                 //menerima input nama pemain 1
@@ -181,9 +228,22 @@ public class Main{
                     CSVReader reader2=new CSVReader(new File(Main.class.getResource(file2).toURI()),";");
                     reader1.setSkipHeader(true);
                     reader2.setSkipHeader(true);
+                    Random random=new Random();
+                    List<String[]> lines1=reader1.read();
+                    List<String[]> lines2=reader2.read();
+
                 }
+            }
 
+            else if (menu==2){
+                Instruction instruction =new Instruction();
+                instruction.getHelp();
+            }
 
+            else if(menu==3){
+                System.out.println("Anda sudah keluar dari aplikasi. Terima kasih telah bermain");
+                //menutup aplikasi
+                input.close;
             }
         }
     }
