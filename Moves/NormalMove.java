@@ -1,10 +1,5 @@
-/*
-    Class NormalMove
-    Tipe: Class 
-    Fungsi: Menampung Moveset normal dari monster
-    Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
-*/
-package com.monstersaku;
+// Hanya dipengaruhi oleh base Power dari Move untuk damage calcu
+package Moves;
 
 public class NormalMove extends Move {
     private int basepower;

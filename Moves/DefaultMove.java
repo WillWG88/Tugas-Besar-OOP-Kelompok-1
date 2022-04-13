@@ -1,12 +1,5 @@
-/*
-    Class DefaultMove
-    Tipe: Class
-    Fungsi: Menampung default move dari monster
-    Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
-*/
-
 // Default move tidak extends move karena tidak punya ammunition
-package com.monstersaku;
+package Moves;
 
 public abstract class DefaultMove {
     private String name;

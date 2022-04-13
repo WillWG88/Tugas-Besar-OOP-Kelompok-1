@@ -1,12 +1,6 @@
-/*
-    Class SpecialMove
-    Tipe: Class
-    Fungsi: Menampung Moveset special dari monster
-    Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
-*/
-
-// There isn't any different from NormalMove
-package com.monstersaku;
+// Hanya dipengaruhi oleh base Power dari Move untuk damage calcu
+// mirip NormalMove
+package Moves;
 
 public class SpecialMove extends Move {
     private int basepower;

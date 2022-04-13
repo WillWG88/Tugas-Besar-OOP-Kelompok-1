@@ -1,15 +1,6 @@
-package com.monstersaku;
-
-/*
-    Class Move
-    Tipe: Abstract Class
-    Fungsi: Menampung Moveset dari monster
-    Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
-*/
-
+package Moves;
 
 import java.util.List;
-//import java.util.ArrayList;
 
 public class Move {
     private int id;
