@@ -249,20 +249,7 @@ public class Main{
                 
 
 
-                ArrayList<Monster> monsterpemain2=new ArrayList<Monster>();
-                String file1="configs/MonsterPool.csv";
-                String file2="configs/MovePool.csv";
-
-                try{
-                    //membaca file 1 dan file 2
-                    CSVReader reader1= new CSVReader(new File(Main.class.getResource(file1).toURI()),";");
-                    CSVReader reader2=new CSVReader(new File(Main.class.getResource(file2).toURI()),";");
-                    reader1.setSkipHeader(true);
-                    reader2.setSkipHeader(true);
-                    Random random=new Random();
-                    List<String[]> lines1=reader1.read();
-                    List<String[]> lines2=reader2.read();
-
+        
                 }
             }
 
