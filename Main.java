@@ -3,11 +3,12 @@ import java.util.*;
 
 public class Main{
     private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
-            "configs/MonsterPool.csv",
+       "configs/MonsterPool.csv",
             "configs/MovePool.csv",
             "configs/ElementTypesEffectivity.csv"));
 
     public static void main(String[] args){
+
        //menyimpan move dalam ArrayList
         ArrayList<Move> moveList= new ArrayList<Move>();
         //menyimpan monster dalam ArrayList
@@ -178,32 +179,34 @@ public class Main{
             System.err.println("Error");
         }
 
-        //mulai permainan
+        //memulai permainan
         boolean endGame=false;
-        while(!endGame){
-            Scanner input = new Scanner(System.in);
-            System.out.println();
-            System.out.println("===========Selamat datang di game Monster Saku===========");
-            System.out.println();
+    
+        Scanner input = new Scanner(System.in);
+        Scanner action = new Scanner(System.in);
+        System.out.println();
+        System.out.println("===========Selamat datang di game Monster Saku===========");
+        System.out.println();
         
-            //pilih menu game
-            System.out.println("Silahkan pilih menu game di bawah ini");
-            System.out.println();
-            System.out.println("1. START");
-            System.out.println("2. HELP");
-            System.out.println("3. EXIT");
-            System.out.println();
-            //menerima input dari user
-            System.out.printf("Silahkan pilih menu: ");
-            int menu= input.nextInt();
-            System.out.println();
+        //pilih menu game
+        System.out.println("Silahkan pilih menu game di bawah ini");
+        System.out.println();
+        System.out.println("1. START");
+        System.out.println("2. HELP");
+        System.out.println("3. EXIT");
+        System.out.println();
+        //menerima input dari user
+        System.out.printf("Silahkan pilih menu: ");
+        int menu= input.nextInt();
+        System.out.println();
 
-            while(menu<1 || menu>3){
-                System.out.printf("Masukkan lagi menu yang valid : ");
-                menu=input.nextInt();
-                System.out.println();
-            }
-
+        while(menu<1 || menu>3){
+            System.out.printf("Masukkan lagi menu yang valid : ");
+            menu=input.nextInt();
+            System.out.println();
+         }
+        
+        while(menu!=3){
             if(menu==1){
                 //Permainan dimulai 
                 System.out.println("Permainan akan dimulai....");
@@ -233,6 +236,9 @@ public class Main{
 
                     monsterPemain1.add(Monster1);
                 }
+                MonsterPool pool1= new MonsterPool();
+                pool1.setListMonster(monsterPemain1);
+
                 ArrayList<Monster> monsterPemain2=new ArrayList<Monster>();
                 for(int i=0;i<6;i++){
                     Integer monsterRandom=random.nextInt(upperbound);
@@ -244,14 +250,264 @@ public class Main{
 
                     monsterPemain2.add(Monster2);
                 }
+                MonsterPool pool2=new MonsterPool();
+                pool2.setListMonster(monsterPemain2);
 
-                
-                
+                Player pemain1=new Player(1,name1);
+                Player pemain2=new Player(2,name2);
+                pemain1.setAllMonster(pool1);
+                pemain2.setAllMonster(pool2);
+                pemain1.setCurrentMonster(pemain1.getMonsterPool().get(0));
+                pemain2.setCurrentMonster(pemain2.getMonsterPool().get(0));
+                //
+                Monster p1ActiveMonster= pemain1.getCurrentMonster();
+                Monster p2ActiveMonster= pemain2.getCurrentMonster();
+
+                boolean pemain1ValidMove=true;
+                boolean pemain2ValidMove=true;
+                int p1PilMove = -1;
+                int p2PilMove = -1;
+
+                //melakukan loop giliran
+                while(!endGame){
+                    //inisialisasi 
+                    boolean pemain1CanMove=true;
+                    boolean pemain2CanMove=true;
+                    pemain1ValidMove=false;
+                    pemain2ValidMove=false;
+
+                    turn=turn+1;
+                    //mengecek condition sleep semua monster pemain 1 dan pemain 2
+                    for(int i=0;i<pool1.getSize();i++){
+                        if()
+                    }
+
+                    for(int i=0;i<pool2.getSize();i++){
+
+                    }
+
+                    //mengecek condition burn semua monster pemain 1 dan pemain 2
+                    for (int i=0;i<pool1.getSize();i++){
+                        if (pemain1.getMonsterPool().get(i).getIsBurn()){   
+                            Condition.Burn(pemain1.getMonsterPool().get(i));
+                        }    
+                    }
+                    for (int i=0;i<pool2.getSize();i++){
+                        if (pemain2.getMonsterPool().get(i).getIsBurn()){   
+                            Condition.Burn(pemain2.getMonsterPool().get(i));
+                        }  
+                    }
+                    
+                    //mengecek condition poison semua monster pemain 1 dan pemain 2
+                    for (int i=0;i<pool1.getSize();i++){
+                        if (pemain1.getMonsterPool().get(i).getIsPoison()){   
+                             Condition.Burn(pemain1.getMonsterPool().get(i));
+                        }    
+                    }
+                    for (int i=0;i<pool2.getSize();i++){
+                        if (pemain2.getMonsterPool().get(i).getIsPoison()){   
+                             Condition.Poison(pemain2.getMonsterPool().get(i));
+                        }  
+                    }
+                    
+                    
+                    //Pemain 1 menentukan Turn 
+                    boolean turnFinished=false;
+                    //loop
+                    while(!turnFinished){
+                        System.out.printf("Player 1 Active Monster : %s%n", p1ActiveMonster.getNama());
+                        System.out.println("1. Move");
+                        System.out.println("2. Switch");
+                        System.out.println("3. View Current Monsters Info");
+                        System.out.println("4. View Current Game Info");
+                        System.out.printf("Select action : ");
+                        //user memilih aksi yang akan dilakukan 
+                        int select1 = action.nextInt();
+                        //jika user memilih move
+                        if(select1==1){
+                            //Mengecek monster aktif sedang sleep atau paralyzed
+                            if(p1ActiveMonster.IsSleep()){
+                                System.out.println("Monster yang aktif sedang sleep sehingga tidak bisa melakukan move, sekarang giliran Player lain turn");
+                            }
+                            else{
+              
+                                //mengecek status paralyzed
+                                if(p1ActiveMonster.IsParalyze()){
+                                    //monster yang terkena status paralyze akan menyebabkan speed turun 50% kemudian terdapat kemungkinan monster tidak bisa bergerak satu giliran sebesar 25%
+                                    StatusCondition.paralyze(p1ActiveMonster);
+                                    int rand_int=rand.nextInt(4);
+                                    if(rand_int==0){
+                                        pemain1CanMove=false;
+                                    }
+                                }
+                                    if(pemain1CanMove){
+                                        System.out.printf("%s move : %n", p1ActiveMonster.getNama());
+                                        for (int i = 0; i < p1ActiveMons.getMoves().size(); i++){
+                                            System.out.printf("%d. %s%n", i+1,p1ActiveMonster.getMoves().get(i).getMoveName())
+                                        }
+
+                                        //memilih move
+                                        while(!pemain1ValidMove){
+                                            //input pilihan move
+                                            System.out.printf("Pilih Move : ");
+                                            int pilihmove = action.nextInt();
+                                            //mengecek tipe move yang diinput
+                                            if(pilihmove < 1 || pilihmove > p1ActiveMonster.getMoves().size()){
+                                                System.out.println("Move tidak ada dalam pilihan");
+                                            }
+                                            else if ((p1ActiveMonster.getMoves().get(pilihmove -1 ).getMoveAmmunition() ==0)){
+                                                System.out.println("Amunisi habis.");
+                                            }
+                                            else{
+                                                p1PilMove=pilihmove-1;
+                                                pemain1ValidMove= true;
+                                                System.out.println(p1ActiveMonster.getMoves().get(p1PilMove).getMoveName() + " telah dipilih");
+                                            }
+                                            
+                                        }
+
+
+                                    }
+                                    else{
+                                        System.out.println("tidak bisa melakukan move karena efek 25% paralyze aktif");
+                                    }
+                                }
+                                turnFinished=true;
+                            }
+
+                            //switch pokemon
+                            else if (select1 == 2){
+                                p1.printMonsters();
+                                System.out.println("Choose Id Monster : ");
+                                int sel = scan.nextInt();
+                                
+                                // bikin reset status buff untuk monster yang diswitch
+    
+                                // ngerubah aktif monster
+                                p1ActiveMonster = pemain1.getMonsterPool().get(sel-1);
+                                System.out.printf("Player 1 Active Monster : %s%n", p1ActiveMonster.getNama);
+                                turnFinished = true;
+                            }
+                            //view current monster status
+                            else if (select1 == 3){
+                                p1ActiveMons.printStats();
+                            }
+                            else if (select1 == 4){
+                                System.out.printf("Turn skrng : %d%n",turn );
+                                System.out.println("Monster Player 1 yg aktif : "+ p1ActiveMonster.getNama());
+                                System.out.println("Monster Player 1 yg tidak aktif :");
+                                System.out.println("");
+                                for(int a = 0; a < pemain1.getMonsterPool().size() ; a++){
+                                    if(pemain1.getMonsterPool().get(a).getId() != p1ActiveMonster.getId()){
+                                        System.out.println(p1.getMonsterPool().get(a).getNama());
+                                    }
+                                }
+                                System.out.println("");
+                            }
+                        }
+
+                    //Pemain 2 menentukan Turn 
+                    turnFinished=false;
+                    //loop
+                    while(!turnFinished){
+                        System.out.printf("Player 2 Active Monster : %s%n", p2ActiveMonster.getNama());
+                        System.out.println("1. Move");
+                        System.out.println("2. Switch");
+                        System.out.println("3. View Current Monsters Info");
+                        System.out.println("4. View Current Game Info");
+                        System.out.printf("Select action : ");
+                        //user memilih aksi yang akan dilakukan 
+                        int select2 = action.nextInt();
+                        //jika user memilih move
+                        if(select2==1){
+                            //Mengecek monster aktif sedang sleep atau paralyzed
+                            if(p2ActiveMonster.IsSleep()){
+                                System.out.println("Monster yang aktif sedang sleep sehingga tidak bisa melakukan move, sekarang giliran Player lain turn");
+                            }
+                            else{
+              
+                                //mengecek status paralyzed
+                                if(p2ActiveMonster.IsParalyze()){
+                                    //monster yang terkena status paralyze akan menyebabkan speed turun 50% kemudian terdapat kemungkinan monster tidak bisa bergerak satu giliran sebesar 25%
+                                    StatusCondition.paralyze(p2ActiveMonster);
+                                    int rand_int=rand.nextInt(4);
+                                    if(rand_int==0){
+                                        pemain2CanMove=false;
+                                    }
+                                }
+                                    if(pemain2CanMove){
+                                        System.out.printf("%s move : %n", p2ActiveMonster.getNama());//getName nama dari monster
+                                        for (int i = 0; i < p1ActiveMons.getMoves().size(); i++){
+                                            System.out.printf("%d. %s%n", i+1,p2ActiveMonster.getMoves().get(i).getMoveName())
+                                        }
+
+                                        //memilih move
+                                        while(!pemain2ValidMove){
+                                            //input pilihan move
+                                            System.out.printf("Pilih Move : ");
+                                            int pilihmove = action.nextInt();
+                                            //mengecek tipe move yang diinput
+                                            if(pilihmove < 1 || pilihmove > p2ActiveMonster.getMoves().size()){
+                                                System.out.println("Move tidak ada dalam pilihan");
+                                            }
+                                            else if ((p1ActiveMonster.getMoves().get(pilihmove -1 ).getMoveAmmunition() ==0)){
+                                                System.out.println("Amunisi habis.");
+                                            }
+                                            else{
+                                                p1PilMove=pilihmove-1;
+                                                pemain1ValidMove= true;
+                                                System.out.println(p1ActiveMonster.getMoves().get(p1PilMove).getMoveName() + " telah dipilih");
+                                            }
+                                            
+                                        }
+
+
+                                    }
+                                    else{
+                                        System.out.println("tidak bisa melakukan move karena efek 25% paralyze aktif");
+                                    }
+                                }
+                                turnFinished=true;
+                            }
+
+                            //switch pokemon
+                            else if (select1 == 2){
+                                p1.printMonsters();
+                                System.out.println("Choose Id Monster : ");
+                                int sel = scan.nextInt();
+                                
+                                // bikin reset status buff untuk monster yang diswitch
+    
+                                // ngerubah aktif monster
+                                p1ActiveMonster = pemain1.getMonsterPool().get(sel-1);
+                                System.out.printf("Player 1 Active Monster : %s%n", p1ActiveMonster.getName());
+                                turnFinished = true;
+                            }
+                            //view current monster status
+                            else if (select1 == 3){
+                                p1ActiveMons.printStats();
+                            }
+                            else if (select1 == 4){
+                                System.out.printf("Turn skrng : %d%n",turn );
+                                System.out.println("Monster Player 1 yg aktif : "+ p1ActiveMons.getNama());
+                                System.out.println("Monster Player 1 yg tidak aktif :");
+                                System.out.println("");
+                                for(int a = 0; a < pemain1.getMonsterPool().size() ; a++){
+                                    if(pemain1.getMonsterPool().get(a).getId() != p1ActiveMonster.getId()){
+                                        System.out.println(p1.getMonsterPool().get(a).getNama());
+                                    }
+                                }
+                                System.out.println("");
+                            }
+                        }
+
+    
+
+        
 
 
         
-                }
-            }
+        
 
             else if (menu==2){
                 Instruction instruction =new Instruction();
