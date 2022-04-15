@@ -1,6 +1,8 @@
 import java.io.File;
 import java.util.*;
 
+
+
 public class Main{
     private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
        "configs/MonsterPool.csv",
@@ -627,27 +629,27 @@ public class Main{
                                         }
                                     }
                                     else{
-                                        System.out.println(p1ActiveMons.getName() + " milik Player 1 menyerang balik menggunakan" + p1ActiveMons.getMoves().get(p1PilMove).getName());
-                                        p1ActiveMons.getMoves().get(p1PilMove).applyEffect(p1ActiveMons, p2ActiveMons, listEffectivity);
-                                        if (p2ActiveMons.getIsDead()){
-                                            System.out.printf("%s is Dead :(%n", p2ActiveMons.getName());
-                                            if (!p2.isLose()){
-                                                p2.printMonsters();
+                                        System.out.println(p1ActiveMonster.getNama() + " milik Player 1 menyerang balik menggunakan" + p1ActiveMons.getMoves().get(p1PilMove).getName());
+                                        p1ActiveMonster.getMoves().get(p1PilMove).applyEffect(p1ActiveMonster, p2ActiveMonster, listEffectivity);
+                                        if (p2ActiveMonster.getIsDead()){
+                                            System.out.printf("%s is Dead :(%n", p2ActiveMonster.getNama());
+                                            if (!pemain2.isLose()){
+                                                pemain2.printMonsters();
                                                 System.out.println("Choose New Monster Id: ");
-                                                int choosenId = scan.nextInt();
-                                                while (p2.getListMonster().get(choosenId-1).getStats().getHealthPoint() <= 0 || p2.getListMonster().get(choosenId-1).getSleepCounter() > 0){
+                                                int MonsterId = action.nextInt();
+                                                while (p2.getMonsterPool().get(MonsterId-1).getStats().getHealthPoint() <= 0 || pemain2.getMonsterPool().get(MonsterId-1).getSleepCounter() > 0){
                                                     if (p2.getListMonster().get(choosenId-1).getStats().getHealthPoint() <= 0){   
                                                         System.out.println("Monster sudah mati, silahkan pilih monster lain.");
                                                         System.out.println("Choose Monster Id : ");
-                                                        choosenId = scan.nextInt();
+                                                        MonsterId = action.nextInt();
                                                     }
                                                     else if (p2.getListMonster().get(choosenId-1).getSleepCounter() > 0){
                                                         System.out.println("Monster sedang tertidur, silahkan pilih monster lain.");
                                                         System.out.println("Choose Monster Id : ");
-                                                        choosenId = scan.nextInt();
+                                                        MonsterId = scan.nextInt();
                                                     }
                                                 }
-                                                p2ActiveMons = p2.getListMonster().get(choosenId-1);
+                                                p2ActiveMons = p2.getMonsterPool.get(choosenId-1);
                                                 System.out.printf("%s's Active Monster : %s%n", p2.getNama(), p2ActiveMons.getName());
                                             }
                                             else{
