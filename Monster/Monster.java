@@ -18,6 +18,10 @@ public class Monster{
     private StatusCondition condition;
     private List<Move> moves;
     private Status status;
+    private boolean burn;
+    private boolean poison;
+    private boolean sleep;
+    private boolean paralyze;
 
     //konstruktor 
     public Monster(int id, String nama, List<ElementType> elementTypes, Stats stats, List<Move> moves){
@@ -28,6 +32,11 @@ public class Monster{
         this.status=Status.Alive;
         this.condition=new StatusCondition();
         this.buff=new Buff();
+        this.burn = false;
+        this.poison = false;
+        this.sleep = false;
+        this.paralyze = false;
+        this.isAlive = true;
     }
 
     //getter
@@ -65,7 +74,26 @@ public class Monster{
     public List<Move> getMoves(){
         return moves;
     }
+    
+    public boolean isBurn(){
+        return this.burn;
+    }
 
+    public boolean isSleep(){
+        return this.sleep;
+    }
+
+    public boolean isPoison(){
+        return this.poison;
+    }
+
+    public boolean isParalyze(){
+        return this.paralyze;
+    }
+    
+    public boolean IsAlive(){
+        return this.isAlive;
+    }
     //setter
     public void setNama(String nama){
         this.nama = nama;

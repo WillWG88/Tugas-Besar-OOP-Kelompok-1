@@ -1,24 +1,21 @@
 import java.io.File;
 import java.util.*;
 
+public class Main {
+    int i = 6;
 
+    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList("configs/MonsterPool.csv", "configs/MovePool.csv","configs/ElementTypesEffectivity.csv"));
+    ArrayList<Move> moveList= new ArrayList<Move>();
 
-public class Main{
-    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
-       "configs/MonsterPool.csv",
-            "configs/MovePool.csv",
-            "configs/ElementTypesEffectivity.csv"));
+    ArrayList<Monster> monsterList=new ArrayList<Monster>();
 
+    private static Effectivity listEffectivity = new Effectivity();
+
+    EffectivityPool effectivityPool=new EffectivityPool();
+    
+    
     public static void main(String[] args){
 
-       //menyimpan move dalam ArrayList
-        ArrayList<Move> moveList= new ArrayList<Move>();
-        //menyimpan monster dalam ArrayList
-        ArrayList<Monster> monsterList=new ArrayList<Monster>();
-        //menyimpan effectivity dalam list
-        private static Effectivity listEffectivity = new Effectivity();
-        //Effectivity pool
-        EffectivityPool effectivityPool=new EffectivityPool();
 
         //Membaca CSV file dengan separator ;
         try{
@@ -392,7 +389,7 @@ public class Main{
                             }
                             //view current monster status
                             else if (select1 == 3){
-                                p1ActiveMons.printStats();
+                                p1ActiveMons.printInfo();
                             }
                             else if (select1 == 4){
                                 System.out.printf("Turn sekarang adalah : %d%n",turn );
@@ -400,7 +397,7 @@ public class Main{
                                 System.out.println("Monster Player 1 yg tidak aktif :");
                                 System.out.println("");
                                 for(int a = 0; a < pemain1.getMonsterPool().size() ; a++){
-                                    if(pemain1.getMonsterPool().get(a).getId() != p1ActiveMonster.getId()){
+                                    if(pemain1.getMonsterPool().get(a).getId() != p1ActiveMonster.getID()){
                                         System.out.println(p1.getMonsterPool().get(a).getNama());
                                     }
                                 }
@@ -538,7 +535,7 @@ public class Main{
                                 }
                                 //jika monster tidak mati maka akan dilakukan pengecekan kondisi sleep dan paralyze
                                 else{
-                                    if(p2ActiveMonster.getIsSleep()){
+                                    if(p2ActiveMonster.IsSleep()){
                                         System.out.println(p2ActiveMonster.getNama()+" dalam kondisi sleep");
                                     }
                                     else if(p2ActiveMonster.getIsParalyze()){
@@ -578,7 +575,7 @@ public class Main{
                                                 System.out.printf("%s's Active Monster : %s%n", pemain1.getPlayerName(), p1ActiveMonster.getNama());
                                             }
                                             else{
-                                                endgame = true;
+                                                endGame = true;
                                             }
                                         }
                                     }
@@ -609,17 +606,17 @@ public class Main{
                                         System.out.printf("%s's Active Monster : %s%n", pemain1.getPlayerName(), p1ActiveMonster.getNama());
                                     }
                                     else{
-                                        endgame = true;
+                                        endGame = true;
                                     }
                                 }
                                 else{
                                     if (p1ActiveMons.getIsSleep()){
                                         System.out.println(p1ActiveMons.getName() + " dalam kondisi sleep");
                                     } 
-                                    else if (p1ActiveMons.getIsParalyze()){
+                                    else if (p1ActiveMons.IsParalyze()){
                                         System.out.println("Monster ini baru saha terkena efek paralyze dari move p1 sebelumnya");
                                         System.out.println("Efek 25% akan dirandom...");
-                                        int rand_int = rand.nextInt(4);
+                                        int rand_int = random.nextInt(4);
                                         if (rand_int == 0){
                                             System.out.println("Monster terkena stunt");
                                         }

@@ -46,6 +46,10 @@ public class Player {
         this.allMonsters = allMonsters;
     }
 
+    public void setCurrentMonster(Monster currentMonster){
+        this.currentMonster=currentMonster;
+    }
+
     public void setMonsterPool(int i, MonsterPool listMonster){
         try {
             List<Monster> copyMonsterPool = listMonster.getListMonster();

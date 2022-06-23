@@ -9,6 +9,14 @@ public class Stats{
     private double specialAttack;
     private double specialDefense;
     private double speed;
+    private boolean isBurn = false;
+    private boolean isPoison = false;
+    private boolean isSleep = false;
+    private boolean isParalyze = false;
+    private double HP;
+    private double damage;
+    private double kecepatan;
+
 
     //konstruktor 
     public Stats(double healthPoint, double attack, double defense, double specialAttack, double specialDefense,double speed) {
@@ -67,6 +75,23 @@ public class Stats{
     
     public void setSpeed(double speed) {
         this.speed = speed;
+      }
+
+    public void burn(double healthPoint, double attack) {
+        HP = this.healthPoint-this.healthPoint * 0.125;
+        damage = 0.5 * this.attack;
+        System.out.println("Health Point monster ini menjadi " + HP);
+        System.out.println("Attack yang dihasikan monster ini menjadi " + damage);
+      }
+    
+    public void poison(double healthPoint) {
+        HP = this.healthPoint- this.healthPoint * 0.0625;
+        System.out.println("Health Point monster ini menjadi " + HP);
+      }
+    
+    public void paralyze(double speed) {
+        kecepatan = this.speed-this.speed * 0.5;
+        System.out.println("Speed monster ini menjadi " + kecepatan);
       }
 
 
